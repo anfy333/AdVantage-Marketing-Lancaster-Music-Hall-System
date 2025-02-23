@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.List;
 import java.time.LocalDateTime;
 
@@ -26,6 +27,10 @@ public class FilmAPIImpl implements FilmAPIInterface {
 
     @Override
     public boolean removeFilmBooking(int filmId) {
+        return true;
+    }
+    @Override
+    public boolean getFilmsScheduledOn(LocalDate date) {
         return true;
     }
 }
