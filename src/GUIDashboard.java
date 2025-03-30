@@ -1,15 +1,12 @@
-/*import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;*/
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class GUI {
+public class GUIDashboard {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(GUI::createAndShowGUI); // Create an instance of GUI to invoke the constructor
+        SwingUtilities.invokeLater(GUIDashboard::createAndShowGUI); // Create an instance of GUI to invoke the constructor
     }
     private static void createAndShowGUI() {
         JFrame frame = new JFrame("Lancaster Music Hall Marketing System");
@@ -30,7 +27,12 @@ public class GUI {
             button.setForeground(Color.WHITE);
             button.setFocusPainted(false);
             sidebar.add(button);
+            if (item.equals("Film Bookings")) {
+                button.addActionListener(e -> GUIFilmBookings.createAndShowGUI());
+            }
         }
+
+
 
         // Main Content Panel
         JPanel mainPanel = new JPanel();
