@@ -4,9 +4,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GUIDashboard {
+import static javax.swing.text.StyleConstants.setBackground;
+
+public class GUIDashboard extends JPanel {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(GUIDashboard::createAndShowGUI); // Create an instance of GUI to invoke the constructor
+    }
+    private JFrame mainFrame; // Changed to JFrame for proper navigation handling
+
+    public GUIDashboard(JFrame mainFrame) {
+        this.mainFrame = mainFrame;
+        mainFrame.setLayout(new BorderLayout());
+        //setBackground(new Color(224, 237, 255)); // Light blue background
+
+        //JPanel sidebar = createSidebar();
+        //add(sidebar, BorderLayout.WEST);
     }
     private static void createAndShowGUI() {
         JFrame frame = new JFrame("Lancaster Music Hall Marketing System");

@@ -100,6 +100,7 @@ public class GUIFilmBookings extends JPanel {
         frame.setVisible(true);
     }
 
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(GUIFilmBookings::createAndShowGUI);
     }
