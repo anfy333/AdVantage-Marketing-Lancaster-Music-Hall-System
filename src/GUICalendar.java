@@ -23,20 +23,19 @@ public class GUICalendar extends JPanel{
         setBackground(new Color(224, 237, 255)); // Light blue background
 
         JPanel sidebar = createSidebar();
-        JPanel topPanel = createTopPanel();
-        JPanel calendarPanel = createCalendarPanel();
 
         add(sidebar, BorderLayout.WEST);
-        add(topPanel, BorderLayout.NORTH);
-        add(calendarPanel, BorderLayout.CENTER);
     }
 
     private JPanel createSidebar() {
         JPanel sidebar = new JPanel();
         sidebar.setLayout(new GridLayout(6, 1, 10, 10));
         sidebar.setBackground(new Color(204, 225, 255));
+        JPanel content = createContentPanel();
+        add(content, BorderLayout.CENTER);
 
         String[] menuItems = {"Dashboard", "Film Bookings", "Calendar", "Event Bookings", "Analytics"};
+
         for (String item : menuItems) {
             JButton button = new JButton(item);
             button.setFont(new Font("Arial", Font.BOLD, 14));
@@ -51,6 +50,15 @@ public class GUICalendar extends JPanel{
         return sidebar;
     }
 
+    private JPanel createContentPanel() {
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BorderLayout());
+        contentPanel.setBackground(new Color(224, 237, 255));
+        contentPanel.add(createTopPanel(), BorderLayout.NORTH);
+        contentPanel.add(createCalendarPanel(), BorderLayout.CENTER);
+        return contentPanel;
+    }
+
     private void switchPage(String page) {
         mainFrame.getContentPane().removeAll();
         switch (page) {
@@ -60,10 +68,10 @@ public class GUICalendar extends JPanel{
             case "Film Bookings":
                 mainFrame.add(new GUIFilmBookings(mainFrame));
                 break;
-            /*case "Event Bookings":
+            case "Event Bookings":
                 mainFrame.add(new GUIEventBookings(mainFrame));
                 break;
-            case "Analytics":
+            /*case "Analytics":
                 mainFrame.add(new GUIAnalytics(mainFrame));
                 break;*/
             case "Calendar":

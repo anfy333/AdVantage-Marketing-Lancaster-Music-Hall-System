@@ -30,17 +30,32 @@ public class GUIFilmBookings extends JPanel {
             button.setFocusPainted(false);
             sidebar.add(button);
 
-            /*if (item.equals("Dashboard")) {
-                button.addActionListener(e -> {
-                    mainFrame.getContentPane().removeAll();
-                    mainFrame.add(new GUIDashboard()); // Assuming you have a DashboardPage class
-                    mainFrame.revalidate();
-                    mainFrame.repaint();
-                });
-            }*/
+            button.addActionListener(e -> switchPage(item));
         }
 
         return sidebar;
+    }
+    private void switchPage(String page) {
+        mainFrame.getContentPane().removeAll();
+        switch (page) {
+            case "Dashboard":
+                mainFrame.add(new GUIDashboard(mainFrame));
+                break;
+            case "Film Bookings":
+                mainFrame.add(new GUIFilmBookings(mainFrame));
+                break;
+            case "Event Bookings":
+                mainFrame.add(new GUIEventBookings(mainFrame));
+                break;
+            /*case "Analytics":
+                mainFrame.add(new GUIAnalytics(mainFrame));
+                break;*/
+            case "Calendar":
+                mainFrame.add(new GUICalendar(mainFrame));
+                break;
+        }
+        mainFrame.revalidate();
+        mainFrame.repaint();
     }
     private JPanel createContentPanel() {
         JPanel contentPanel = new JPanel();
