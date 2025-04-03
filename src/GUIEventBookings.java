@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class GUIEventBookings extends JPanel {
     private JFrame mainFrame;
@@ -108,8 +110,43 @@ public class GUIEventBookings extends JPanel {
 
     private void openCreateEventWindow() {
         JFrame eventFrame = new JFrame("Create Event");
-        eventFrame.setSize(400, 300);
+        eventFrame.setSize(400, 400);
         eventFrame.setLocationRelativeTo(mainFrame);
+
+        JPanel panel = new JPanel(new GridLayout(6, 2, 10, 10));
+
+        panel.add(new JLabel("Event Type:"));
+        String[] eventTypes = {"Film Screening", "Tour", "Group Booking", "Meeting"};
+        JComboBox<String> eventTypeDropdown = new JComboBox<>(eventTypes);
+        panel.add(eventTypeDropdown);
+
+        panel.add(new JLabel("Event Date (YYYY-MM-DD):"));
+        JTextField dateField = new JTextField();
+        panel.add(dateField);
+
+        JButton createButton = new JButton("Create Event");
+        createButton.addActionListener(e -> {
+            String eventType = (String) eventTypeDropdown.getSelectedItem();
+            String dateText = dateField.getText();
+
+            LocalDate eventDate;
+            try {
+                eventDate = LocalDate.parse(dateText, DateTimeFormatter.ISO_LOCAL_DATE);
+                if (eventDate.isBefore(LocalDate.now().plusWeeks(3))) {
+                    JOptionPane.showMessageDialog(eventFrame, "Bookings cannot be less than three weeks in advance.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                JOptionPane.showMessageDialog(eventFrame, "Event Created: " + eventType + " on " + dateText, "Success", JOptionPane.INFORMATION_MESSAGE);
+                eventFrame.dispose();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(eventFrame, "Invalid date format.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        panel.add(new JLabel());
+        panel.add(createButton);
+
+        eventFrame.add(panel);
         eventFrame.setVisible(true);
     }
 
