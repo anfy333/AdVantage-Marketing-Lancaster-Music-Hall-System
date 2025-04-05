@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class GUIEventBookings extends JPanel {
     private JFrame mainFrame;
@@ -110,44 +111,62 @@ public class GUIEventBookings extends JPanel {
 
     private void openCreateEventWindow() {
         JFrame eventFrame = new JFrame("Create Event");
-        eventFrame.setSize(400, 400);
-        eventFrame.setLocationRelativeTo(mainFrame);
+        eventFrame.setSize(400, 300);
+        eventFrame.setLayout(new GridLayout(5, 2));
 
-        JPanel panel = new JPanel(new GridLayout(6, 2, 10, 10));
+        JLabel nameLabel = new JLabel("Event Name:");
+        JTextField nameField = new JTextField();
 
-        panel.add(new JLabel("Event Type:"));
+        JLabel typeLabel = new JLabel("Event Type:");
         String[] eventTypes = {"Film Screening", "Tour", "Group Booking", "Meeting"};
-        JComboBox<String> eventTypeDropdown = new JComboBox<>(eventTypes);
-        panel.add(eventTypeDropdown);
+        JComboBox<String> typeDropdown = new JComboBox<>(eventTypes);
 
-        panel.add(new JLabel("Event Date (YYYY-MM-DD):"));
-        JTextField dateField = new JTextField();
-        panel.add(dateField);
+        JLabel dateLabel = new JLabel("Event Date:");
+        JSpinner dateSpinner = new JSpinner(new SpinnerDateModel());
+        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(dateSpinner, "yyyy-MM-dd");
+        dateSpinner.setEditor(dateEditor);
+
+        JLabel locationLabel = new JLabel("Location:");
+        JTextField locationField = new JTextField();
 
         JButton createButton = new JButton("Create Event");
-        createButton.addActionListener(e -> {
-            String eventType = (String) eventTypeDropdown.getSelectedItem();
-            String dateText = dateField.getText();
 
-            LocalDate eventDate;
-            try {
-                eventDate = LocalDate.parse(dateText, DateTimeFormatter.ISO_LOCAL_DATE);
-                if (eventDate.isBefore(LocalDate.now().plusWeeks(3))) {
-                    JOptionPane.showMessageDialog(eventFrame, "Bookings cannot be less than three weeks in advance.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                JOptionPane.showMessageDialog(eventFrame, "Event Created: " + eventType + " on " + dateText, "Success", JOptionPane.INFORMATION_MESSAGE);
-                eventFrame.dispose();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(eventFrame, "Invalid date format.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+        createButton.addActionListener(e -> {
+            String eventName = nameField.getText();
+            String eventType = (String) typeDropdown.getSelectedItem();
+            Date eventDate = (Date) dateSpinner.getValue();
+            String eventLocation = locationField.getText();
+
+            // Check if the date is within 3 weeks
+            /*if (!isValidBookingDate(eventDate)) {
+                JOptionPane.showMessageDialog(eventFrame, "Cannot book beyond 3 weeks.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }*/
+
+            // Store event (you can connect this to a database instead)
+            //events.add(new Event(eventName, eventType, eventDate, eventLocation));
+
+            // Refresh the calendar view (Assuming GUI contains a refreshCalendar method)
+            /*if (calendarView != null) {
+                calendarView.refreshCalendar();
+            }*/
+
+            JOptionPane.showMessageDialog(eventFrame, "Event Created Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            eventFrame.dispose();
         });
 
-        panel.add(new JLabel());
-        panel.add(createButton);
+        eventFrame.add(nameLabel);
+        eventFrame.add(nameField);
+        eventFrame.add(typeLabel);
+        eventFrame.add(typeDropdown);
+        eventFrame.add(dateLabel);
+        eventFrame.add(dateSpinner);
+        eventFrame.add(locationLabel);
+        eventFrame.add(locationField);
+        eventFrame.add(createButton);
 
-        eventFrame.add(panel);
         eventFrame.setVisible(true);
+
     }
 
     public static void createAndShowGUI() {

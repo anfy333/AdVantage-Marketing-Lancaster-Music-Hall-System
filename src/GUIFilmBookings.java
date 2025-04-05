@@ -58,47 +58,54 @@ public class GUIFilmBookings extends JPanel {
         mainFrame.repaint();
     }
     private JPanel createContentPanel() {
-        JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(new BorderLayout());
+        JPanel contentPanel = new JPanel(new BorderLayout());
         contentPanel.setBackground(new Color(224, 237, 255));
 
         JLabel title = new JLabel("Film Catalogue", JLabel.CENTER);
         title.setFont(new Font("SansSerif", Font.BOLD, 24));
         title.setForeground(new Color(20, 20, 80));
 
-        // Table for Films
+        // ===== Film Table + Search (Top Half) =====
         String[] columns = {"ID", "Title", "Release", "Certificate", "Price", "Availability"};
-        Object[][] data = {}; // Placeholder, replace with real data
+        Object[][] data = {}; // Placeholder
         JTable filmTable = new JTable(data, columns);
+        filmTable.setBackground(new Color(224, 237, 255));
         JScrollPane scrollPane = new JScrollPane(filmTable);
 
-        // Search Bar
         JPanel searchPanel = new JPanel(new BorderLayout());
         JTextField searchField = new JTextField();
         JButton searchButton = new JButton("Search");
         searchPanel.add(searchField, BorderLayout.CENTER);
         searchPanel.add(searchButton, BorderLayout.EAST);
 
-        // Booked Films Section
-        JPanel bookedFilmsPanel = new JPanel();
-        bookedFilmsPanel.setLayout(new BorderLayout());
-        bookedFilmsPanel.setBackground(Color.WHITE);
-        JLabel bookedTitle = new JLabel("Booked Films", JLabel.CENTER);
-        bookedTitle.setFont(new Font("SansSerif", Font.BOLD, 20));
+        JPanel tableContainer = new JPanel(new BorderLayout());
+        tableContainer.setBackground(new Color(224, 237, 255));
+        tableContainer.add(scrollPane, BorderLayout.CENTER);
+        tableContainer.add(searchPanel, BorderLayout.SOUTH);
 
+        // ===== Film List / Booked Films (Bottom Half) =====
+        JPanel filmListPanel = new JPanel(new BorderLayout());
+        filmListPanel.setBackground(new Color(224, 237, 255));
+        JLabel listLabel = new JLabel("Booked Films List", JLabel.CENTER);
+        listLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
+        listLabel.setForeground(new Color(20, 20, 80));
+        filmListPanel.add(listLabel, BorderLayout.NORTH);
+
+        // Optional: Add booked films table
         String[] bookedColumns = {"Title", "Hall", "Date"};
         Object[][] bookedData = {{"2001: A Space Odyssey", "Main Hall", "April 15, 2025"}};
         JTable bookedTable = new JTable(bookedData, bookedColumns);
         JScrollPane bookedScroll = new JScrollPane(bookedTable);
+        filmListPanel.add(bookedScroll, BorderLayout.CENTER);
 
-        bookedFilmsPanel.add(bookedTitle, BorderLayout.NORTH);
-        bookedFilmsPanel.add(bookedScroll, BorderLayout.CENTER);
+        // ===== Combine vertically =====
+        JPanel verticalSplitPanel = new JPanel(new GridLayout(2, 1)); // 2 rows, 1 column
+        verticalSplitPanel.add(tableContainer); // Top half
+        verticalSplitPanel.add(filmListPanel);  // Bottom half
 
-        // Adding components to content panel
+        // ===== Final Layout =====
         contentPanel.add(title, BorderLayout.NORTH);
-        contentPanel.add(scrollPane, BorderLayout.CENTER);
-        contentPanel.add(searchPanel, BorderLayout.SOUTH);
-        //contentPanel.add(bookedFilmsPanel, BorderLayout.SOUTH);
+        contentPanel.add(verticalSplitPanel, BorderLayout.CENTER);
 
         return contentPanel;
     }
